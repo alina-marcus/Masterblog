@@ -1,5 +1,3 @@
-from urllib import request
-
 from flask import Flask, request, render_template, redirect, url_for
 import json
 import os
@@ -62,13 +60,45 @@ def delete(post_id):
         for post in blog_posts:
             if post['id'] == post_id:
                 blog_posts.remove(post)
+                break
 
     with open('data.json', 'w') as f:
         json.dump(blog_posts, f, indent=4)
 
     return redirect(url_for('index'))
 
+@app.route('/update/<int:post_id>', methods=['GET', 'POST'])
+def update(post_id):
+    with open('data.json', 'r') as f:
+        blog_posts = json.load(f)
 
+    # Fetch the blog posts from the JSON file
+    post = fetch_post_by_id(blog_posts, post_id)
+    if post is None:
+        # Post not found
+        return "Post not found", 404
+
+    if request.method == 'POST':
+        # Update the post in the JSON file
+        # Redirect back to index
+        post['title'] = request.form['title']
+        post['content'] = request.form['content']
+        post['author'] = request.form['author']
+
+        with open('data.json', 'w') as f:
+            json.dump(blog_posts, f, indent=4)
+
+        return redirect(url_for('index'))
+
+    # Else, it's a GET request
+    # So display the update.html page
+    return render_template('update.html', post=post)
+
+def fetch_post_by_id(posts, post_id):
+    for post in posts:
+        if post['id'] == post_id:
+            return post
+    return None
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
