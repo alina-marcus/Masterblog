@@ -90,8 +90,6 @@ def update(post_id):
 
         return redirect(url_for('index'))
 
-    # Else, it's a GET request
-    # So display the update.html page
     return render_template('update.html', post=post)
 
 def fetch_post_by_id(posts, post_id):
@@ -99,6 +97,7 @@ def fetch_post_by_id(posts, post_id):
         if post['id'] == post_id:
             return post
     return None
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

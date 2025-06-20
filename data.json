@@ -7,8 +7,8 @@
     },
     {
         "id": 2,
-        "author": "Jane Doe",
-        "title": "Second Post",
+        "author": "Jane Domino",
+        "title": "Second Postino",
         "content": "This is another post."
     },
     {
@@ -16,5 +16,11 @@
         "author": "Lala",
         "title": "Tired",
         "content": "I am so, so tired"
+    },
+    {
+        "id": 5,
+        "author": "Tester Testorino",
+        "title": "Why you need a sloth",
+        "content": "I could go on and on about how cute they are"
     }
 ]
