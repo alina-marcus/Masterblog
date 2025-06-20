@@ -1,6 +1,6 @@
 from urllib import request
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import json
 import os
 app = Flask(__name__)
@@ -51,6 +51,23 @@ def add():
         return redirect(url_for('index'))
 
     return render_template('add.html')
+
+@app.route('/delete/<int:post_id>')
+def delete(post_id):
+    # opens json, removes blog post with the desired id and writes
+    # the remaining blog posts back into the json file
+    with open('data.json', 'r') as f:
+        blog_posts = json.load(f)
+
+        for post in blog_posts:
+            if post['id'] == post_id:
+                blog_posts.remove(post)
+
+    with open('data.json', 'w') as f:
+        json.dump(blog_posts, f, indent=4)
+
+    return redirect(url_for('index'))
+
 
 
 if __name__ == '__main__':
